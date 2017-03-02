@@ -20,7 +20,12 @@ namespace CafeManageTool
         private bool logining = false;
         private bool testing = false;
         private bool rightCafe = false;
+        private int checkedBoardCount = 0;
+        private int checkingBoardReceiveCount = 0;
+        private bool checkingBoard = false;
+        private string checkingBoardName = "";
         private Hashtable cafeList = new Hashtable();
+        private Hashtable newPostList = new Hashtable();
         public Form1()
         {
             InitializeComponent();
@@ -95,6 +100,16 @@ namespace CafeManageTool
                 rightCafe = true;
                 testing = false;
             }
+            else if (checkingBoard)
+            {
+                //log("checkingBoard 수신");
+                checkingBoardReceiveCount++;
+                if (checkingBoardReceiveCount == 4)
+                {
+                    webBrowser.Navigate("javascript:var element=document.getElementById('cafe_main').contentWindow.document.getElementsByClassName('m-tcol-c list-count')[0],childs=element.parentElement.parentElement.children;for(var i in childs)if('board-list'===childs[i].className)for(var j in childs[i].children[0].children)'aaa'===childs[i].children[0].children[j].className&&window.external.CafeNewPost(element.innerText,childs[i].children[0].children[j].children[0].innerText);");
+                    checkingBoardReceiveCount = 0;
+                }
+            }
         }
 
         private void login_PasswordShowButton_MouseDown(object sender, MouseEventArgs e)
@@ -127,6 +142,45 @@ namespace CafeManageTool
             selectCafe_LoadStatusLabel.Text = "성공!";
         }
 
+        public void CafeBoardList(string answer)
+        {
+            int leng = 0;
+            foreach(string i in answer.Split(','))
+            {
+                CheckBox checkbox = new CheckBox();
+                checkbox.Text = i;
+                checkbox.Location = new Point(0, leng * 25);
+                checkbox.Width = 100;
+                checkbox.Height = 25;
+                checkbox.Show();
+                commentOnNewPost_BoardListPanel.Controls.Add(checkbox);
+                leng++;
+            }
+            log("카페 게시판 목록 수신.");
+        }
+
+        public void CafeNewPost(string number, string title)
+        {
+            log("최신 글 수신: " + number + ": " + title);
+            if (newPostList.ContainsKey(checkingBoardName))
+            {
+                if (!((string)newPostList[checkingBoardName]).Equals(number))
+                {
+                    log("새 글 수신: " + number + ": " + title);
+                    newPostList[checkingBoardName] = number;
+                }
+                else
+                {
+                    log("변경 사항 없음");
+                }
+            }
+            else
+            {
+                newPostList.Add(checkingBoardName, number);
+                log("새 글 수신: " + number + ": " + title);
+            }
+        }
+
         private void selectCafe_LoadButton_Click(object sender, EventArgs e)
         {
             log("카페 목록 불러오기 시도.");
@@ -151,6 +205,42 @@ namespace CafeManageTool
                 webBrowser.Navigate("http://cafe.naver.com/" + selectCafe_ComboBox.Text);
             }
             testing = true;
+        }
+
+        private void commentOnNewPost_LoadPostListButton_Click(object sender, EventArgs e)
+        {
+            log("카페 게시판 목록 불러오기 시도.");
+            webBrowser.Navigate("javascript:var string = []; var gmtcolc = document.getElementsByClassName('gm-tcol-c'); for (var i=0, leng=gmtcolc.length ; i < leng ; i++) if (gmtcolc[i].outerHTML.indexOf('cafe_main') !== -1 && gmtcolc[i].outerHTML.indexOf('ArticleList.nhn?search.clubid=') !== -1 && gmtcolc[i].outerHTML.indexOf('Favorite') === -1) string.push(gmtcolc[i].innerHTML); window.external.CafeBoardList(string.join(','));");
+        }
+
+        private void commentOnNewPost_StartButton_Click(object sender, EventArgs e)
+        {
+            if (commentOnNewPost_loadPostTimer.Enabled)
+            {
+                log("게시글 검사 중지!");
+                commentOnNewPost_loadPostTimer.Enabled = false;
+                commentOnNewPost_StartButton.Text = "시작";
+            }
+            else
+            {
+                log("10초마다 최신 게시글을 불러옵니다.");
+                commentOnNewPost_loadPostTimer.Enabled = true;
+                commentOnNewPost_StartButton.Text = "중지";
+            }
+        }
+
+        private void commentOnNewPost_loadPostTimer_Tick(object sender, EventArgs e)
+        {
+            foreach (CheckBox checkbox in commentOnNewPost_BoardListPanel.Controls)
+            {
+                if (checkbox.Checked)
+                {
+                    checkingBoard = true;
+                    checkingBoardName = checkbox.Text;
+                    log(checkingBoardName + " 검사 시작");
+                    webBrowser.Navigate("javascript:var gmtcolc = document.getElementsByClassName('gm-tcol-c');for (var i = 0, leng = gmtcolc.length; i < leng; i++) if (gmtcolc[i].outerHTML.indexOf('cafe_main') !== -1 && gmtcolc[i].outerHTML.indexOf('ArticleList.nhn?search.clubid=') !== -1 && gmtcolc[i].outerHTML.indexOf('Favorite') === -1 && gmtcolc[i].innerHTML === '" + checkingBoardName + "') gmtcolc[i].click();");
+                }
+            }
         }
     }
 }

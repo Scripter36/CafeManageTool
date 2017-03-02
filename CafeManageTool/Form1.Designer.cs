@@ -38,20 +38,20 @@
             this.login_PasswordLabel = new System.Windows.Forms.Label();
             this.login_LoginButton = new System.Windows.Forms.Button();
             this.login_StatusLabel = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.login_Panel = new System.Windows.Forms.Panel();
             this.login_PasswordShowButton = new System.Windows.Forms.Button();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.commentOnNewPost_Panel = new System.Windows.Forms.Panel();
             this.commentOnNewPost_StartButton = new System.Windows.Forms.Button();
             this.commentOnNewPost_TitleFilterTextBox = new System.Windows.Forms.TextBox();
             this.commentOnNewPost_TitleFilterLabel = new System.Windows.Forms.Label();
             this.separator1 = new System.Windows.Forms.Label();
             this.commentOnNewPost_boardListLabel = new System.Windows.Forms.Label();
-            this.panel3 = new System.Windows.Forms.Panel();
+            this.commentOnNewPost_BoardListPanel = new System.Windows.Forms.Panel();
             this.commentOnNewPostLabel = new System.Windows.Forms.Label();
-            this.panel4 = new System.Windows.Forms.Panel();
+            this.console_Panel = new System.Windows.Forms.Panel();
             this.console = new System.Windows.Forms.TextBox();
             this.console_ConsoleLabel = new System.Windows.Forms.Label();
-            this.selectCafe = new System.Windows.Forms.Panel();
+            this.selectCafe_Panel = new System.Windows.Forms.Panel();
             this.selectCafe_LoadButton = new System.Windows.Forms.Button();
             this.selectCafe_ComboBox = new System.Windows.Forms.ComboBox();
             this.selectCafe_Label = new System.Windows.Forms.Label();
@@ -59,10 +59,13 @@
             this.selectCafe_SelectButton = new System.Windows.Forms.Button();
             this.selectCafe_LoadStatusLabel = new System.Windows.Forms.Label();
             this.selectCafe_SelectStatusLabel = new System.Windows.Forms.Label();
-            this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
-            this.panel4.SuspendLayout();
-            this.selectCafe.SuspendLayout();
+            this.commentOnNewPost_LoadBoardListButton = new System.Windows.Forms.Button();
+            this.commentOnNewPost_BoardListLoadStatusLabel = new System.Windows.Forms.Label();
+            this.commentOnNewPost_loadPostTimer = new System.Windows.Forms.Timer(this.components);
+            this.login_Panel.SuspendLayout();
+            this.commentOnNewPost_Panel.SuspendLayout();
+            this.console_Panel.SuspendLayout();
+            this.selectCafe_Panel.SuspendLayout();
             this.SuspendLayout();
             // 
             // webBrowser
@@ -136,21 +139,21 @@
             this.login_StatusLabel.TabIndex = 7;
             this.login_StatusLabel.Text = "로그인 해 주세요.";
             // 
-            // panel1
+            // login_Panel
             // 
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.login_PasswordShowButton);
-            this.panel1.Controls.Add(this.login_IdTextBox);
-            this.panel1.Controls.Add(this.login_StatusLabel);
-            this.panel1.Controls.Add(this.login_LoginLabel);
-            this.panel1.Controls.Add(this.login_LoginButton);
-            this.panel1.Controls.Add(this.login_PasswordTextBox);
-            this.panel1.Controls.Add(this.login_PasswordLabel);
-            this.panel1.Controls.Add(this.login_IdLabel);
-            this.panel1.Location = new System.Drawing.Point(12, 12);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(270, 131);
-            this.panel1.TabIndex = 8;
+            this.login_Panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.login_Panel.Controls.Add(this.login_PasswordShowButton);
+            this.login_Panel.Controls.Add(this.login_IdTextBox);
+            this.login_Panel.Controls.Add(this.login_StatusLabel);
+            this.login_Panel.Controls.Add(this.login_LoginLabel);
+            this.login_Panel.Controls.Add(this.login_LoginButton);
+            this.login_Panel.Controls.Add(this.login_PasswordTextBox);
+            this.login_Panel.Controls.Add(this.login_PasswordLabel);
+            this.login_Panel.Controls.Add(this.login_IdLabel);
+            this.login_Panel.Location = new System.Drawing.Point(12, 12);
+            this.login_Panel.Name = "login_Panel";
+            this.login_Panel.Size = new System.Drawing.Size(270, 131);
+            this.login_Panel.TabIndex = 8;
             // 
             // login_PasswordShowButton
             // 
@@ -164,20 +167,22 @@
             this.login_PasswordShowButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.login_PasswordShowButton_MouseDown);
             this.login_PasswordShowButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.login_PasswordShowButton_MouseUp);
             // 
-            // panel2
+            // commentOnNewPost_Panel
             // 
-            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel2.Controls.Add(this.commentOnNewPost_StartButton);
-            this.panel2.Controls.Add(this.commentOnNewPost_TitleFilterTextBox);
-            this.panel2.Controls.Add(this.commentOnNewPost_TitleFilterLabel);
-            this.panel2.Controls.Add(this.separator1);
-            this.panel2.Controls.Add(this.commentOnNewPost_boardListLabel);
-            this.panel2.Controls.Add(this.panel3);
-            this.panel2.Controls.Add(this.commentOnNewPostLabel);
-            this.panel2.Location = new System.Drawing.Point(287, 150);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(245, 131);
-            this.panel2.TabIndex = 9;
+            this.commentOnNewPost_Panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.commentOnNewPost_Panel.Controls.Add(this.commentOnNewPost_BoardListLoadStatusLabel);
+            this.commentOnNewPost_Panel.Controls.Add(this.commentOnNewPost_LoadBoardListButton);
+            this.commentOnNewPost_Panel.Controls.Add(this.commentOnNewPost_StartButton);
+            this.commentOnNewPost_Panel.Controls.Add(this.commentOnNewPost_TitleFilterTextBox);
+            this.commentOnNewPost_Panel.Controls.Add(this.commentOnNewPost_TitleFilterLabel);
+            this.commentOnNewPost_Panel.Controls.Add(this.separator1);
+            this.commentOnNewPost_Panel.Controls.Add(this.commentOnNewPost_boardListLabel);
+            this.commentOnNewPost_Panel.Controls.Add(this.commentOnNewPost_BoardListPanel);
+            this.commentOnNewPost_Panel.Controls.Add(this.commentOnNewPostLabel);
+            this.commentOnNewPost_Panel.Location = new System.Drawing.Point(287, 150);
+            this.commentOnNewPost_Panel.Name = "commentOnNewPost_Panel";
+            this.commentOnNewPost_Panel.Size = new System.Drawing.Size(245, 262);
+            this.commentOnNewPost_Panel.TabIndex = 9;
             // 
             // commentOnNewPost_StartButton
             // 
@@ -187,6 +192,7 @@
             this.commentOnNewPost_StartButton.TabIndex = 8;
             this.commentOnNewPost_StartButton.Text = "시작";
             this.commentOnNewPost_StartButton.UseVisualStyleBackColor = true;
+            this.commentOnNewPost_StartButton.Click += new System.EventHandler(this.commentOnNewPost_StartButton_Click);
             // 
             // commentOnNewPost_TitleFilterTextBox
             // 
@@ -221,14 +227,14 @@
             this.commentOnNewPost_boardListLabel.TabIndex = 2;
             this.commentOnNewPost_boardListLabel.Text = "게시판 선택";
             // 
-            // panel3
+            // commentOnNewPost_BoardListPanel
             // 
-            this.panel3.AutoScroll = true;
-            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel3.Location = new System.Drawing.Point(7, 50);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(124, 56);
-            this.panel3.TabIndex = 1;
+            this.commentOnNewPost_BoardListPanel.AutoScroll = true;
+            this.commentOnNewPost_BoardListPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.commentOnNewPost_BoardListPanel.Location = new System.Drawing.Point(7, 50);
+            this.commentOnNewPost_BoardListPanel.Name = "commentOnNewPost_BoardListPanel";
+            this.commentOnNewPost_BoardListPanel.Size = new System.Drawing.Size(124, 159);
+            this.commentOnNewPost_BoardListPanel.TabIndex = 1;
             // 
             // commentOnNewPostLabel
             // 
@@ -239,14 +245,14 @@
             this.commentOnNewPostLabel.TabIndex = 0;
             this.commentOnNewPostLabel.Text = "새 글에 댓글 달기";
             // 
-            // panel4
+            // console_Panel
             // 
-            this.panel4.Controls.Add(this.console);
-            this.panel4.Controls.Add(this.console_ConsoleLabel);
-            this.panel4.Location = new System.Drawing.Point(12, 150);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(269, 264);
-            this.panel4.TabIndex = 10;
+            this.console_Panel.Controls.Add(this.console);
+            this.console_Panel.Controls.Add(this.console_ConsoleLabel);
+            this.console_Panel.Location = new System.Drawing.Point(12, 150);
+            this.console_Panel.Name = "console_Panel";
+            this.console_Panel.Size = new System.Drawing.Size(269, 264);
+            this.console_Panel.TabIndex = 10;
             // 
             // console
             // 
@@ -265,19 +271,19 @@
             this.console_ConsoleLabel.TabIndex = 0;
             this.console_ConsoleLabel.Text = "콘솔";
             // 
-            // selectCafe
+            // selectCafe_Panel
             // 
-            this.selectCafe.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.selectCafe.Controls.Add(this.selectCafe_SelectStatusLabel);
-            this.selectCafe.Controls.Add(this.selectCafe_LoadStatusLabel);
-            this.selectCafe.Controls.Add(this.selectCafe_SelectButton);
-            this.selectCafe.Controls.Add(this.selectCafe_LoadButton);
-            this.selectCafe.Controls.Add(this.selectCafe_ComboBox);
-            this.selectCafe.Controls.Add(this.selectCafe_Label);
-            this.selectCafe.Location = new System.Drawing.Point(287, 12);
-            this.selectCafe.Name = "selectCafe";
-            this.selectCafe.Size = new System.Drawing.Size(245, 131);
-            this.selectCafe.TabIndex = 11;
+            this.selectCafe_Panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.selectCafe_Panel.Controls.Add(this.selectCafe_SelectStatusLabel);
+            this.selectCafe_Panel.Controls.Add(this.selectCafe_LoadStatusLabel);
+            this.selectCafe_Panel.Controls.Add(this.selectCafe_SelectButton);
+            this.selectCafe_Panel.Controls.Add(this.selectCafe_LoadButton);
+            this.selectCafe_Panel.Controls.Add(this.selectCafe_ComboBox);
+            this.selectCafe_Panel.Controls.Add(this.selectCafe_Label);
+            this.selectCafe_Panel.Location = new System.Drawing.Point(287, 12);
+            this.selectCafe_Panel.Name = "selectCafe_Panel";
+            this.selectCafe_Panel.Size = new System.Drawing.Size(245, 131);
+            this.selectCafe_Panel.TabIndex = 11;
             // 
             // selectCafe_LoadButton
             // 
@@ -339,26 +345,50 @@
             this.selectCafe_SelectStatusLabel.TabIndex = 5;
             this.selectCafe_SelectStatusLabel.Text = "확인해 주세요!";
             // 
+            // commentOnNewPost_LoadBoardListButton
+            // 
+            this.commentOnNewPost_LoadBoardListButton.Location = new System.Drawing.Point(7, 215);
+            this.commentOnNewPost_LoadBoardListButton.Name = "commentOnNewPost_LoadBoardListButton";
+            this.commentOnNewPost_LoadBoardListButton.Size = new System.Drawing.Size(124, 25);
+            this.commentOnNewPost_LoadBoardListButton.TabIndex = 9;
+            this.commentOnNewPost_LoadBoardListButton.Text = "불러오기";
+            this.commentOnNewPost_LoadBoardListButton.UseVisualStyleBackColor = true;
+            this.commentOnNewPost_LoadBoardListButton.Click += new System.EventHandler(this.commentOnNewPost_LoadPostListButton_Click);
+            // 
+            // commentOnNewPost_BoardListLoadStatusLabel
+            // 
+            this.commentOnNewPost_BoardListLoadStatusLabel.AutoSize = true;
+            this.commentOnNewPost_BoardListLoadStatusLabel.Location = new System.Drawing.Point(4, 243);
+            this.commentOnNewPost_BoardListLoadStatusLabel.Name = "commentOnNewPost_BoardListLoadStatusLabel";
+            this.commentOnNewPost_BoardListLoadStatusLabel.Size = new System.Drawing.Size(107, 15);
+            this.commentOnNewPost_BoardListLoadStatusLabel.TabIndex = 10;
+            this.commentOnNewPost_BoardListLoadStatusLabel.Text = "불러와 주세요!";
+            // 
+            // commentOnNewPost_loadPostTimer
+            // 
+            this.commentOnNewPost_loadPostTimer.Interval = 10000;
+            this.commentOnNewPost_loadPostTimer.Tick += new System.EventHandler(this.commentOnNewPost_loadPostTimer_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(811, 426);
-            this.Controls.Add(this.selectCafe);
-            this.Controls.Add(this.panel4);
-            this.Controls.Add(this.panel2);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.selectCafe_Panel);
+            this.Controls.Add(this.console_Panel);
+            this.Controls.Add(this.commentOnNewPost_Panel);
+            this.Controls.Add(this.login_Panel);
             this.Controls.Add(this.webBrowser);
             this.Name = "Form1";
             this.Text = "Form1";
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
-            this.panel4.ResumeLayout(false);
-            this.panel4.PerformLayout();
-            this.selectCafe.ResumeLayout(false);
-            this.selectCafe.PerformLayout();
+            this.login_Panel.ResumeLayout(false);
+            this.login_Panel.PerformLayout();
+            this.commentOnNewPost_Panel.ResumeLayout(false);
+            this.commentOnNewPost_Panel.PerformLayout();
+            this.console_Panel.ResumeLayout(false);
+            this.console_Panel.PerformLayout();
+            this.selectCafe_Panel.ResumeLayout(false);
+            this.selectCafe_Panel.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -373,20 +403,20 @@
         private System.Windows.Forms.Label login_PasswordLabel;
         private System.Windows.Forms.Button login_LoginButton;
         private System.Windows.Forms.Label login_StatusLabel;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel login_Panel;
+        private System.Windows.Forms.Panel commentOnNewPost_Panel;
         private System.Windows.Forms.Label commentOnNewPostLabel;
         private System.Windows.Forms.Label commentOnNewPost_boardListLabel;
-        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel commentOnNewPost_BoardListPanel;
         private System.Windows.Forms.Label separator1;
         private System.Windows.Forms.Button commentOnNewPost_StartButton;
         private System.Windows.Forms.TextBox commentOnNewPost_TitleFilterTextBox;
         private System.Windows.Forms.Label commentOnNewPost_TitleFilterLabel;
-        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Panel console_Panel;
         private System.Windows.Forms.Label console_ConsoleLabel;
         private System.Windows.Forms.TextBox console;
         private System.Windows.Forms.Button login_PasswordShowButton;
-        private System.Windows.Forms.Panel selectCafe;
+        private System.Windows.Forms.Panel selectCafe_Panel;
         private System.Windows.Forms.Label selectCafe_Label;
         private System.Windows.Forms.ComboBox selectCafe_ComboBox;
         private System.Windows.Forms.Button selectCafe_LoadButton;
@@ -394,6 +424,9 @@
         private System.Windows.Forms.Label selectCafe_SelectStatusLabel;
         private System.Windows.Forms.Label selectCafe_LoadStatusLabel;
         private System.Windows.Forms.Button selectCafe_SelectButton;
+        private System.Windows.Forms.Button commentOnNewPost_LoadBoardListButton;
+        private System.Windows.Forms.Label commentOnNewPost_BoardListLoadStatusLabel;
+        private System.Windows.Forms.Timer commentOnNewPost_loadPostTimer;
     }
 }
 
