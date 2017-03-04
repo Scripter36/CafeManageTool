@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Security.Permissions;
 using System.Collections;
+using mshtml;
 
 namespace CafeManageTool
 {
@@ -106,7 +107,17 @@ namespace CafeManageTool
                 checkingBoardReceiveCount++;
                 if (checkingBoardReceiveCount == 4)
                 {
-                    webBrowser.Navigate("javascript:var element=document.getElementById('cafe_main').contentWindow.document.getElementsByClassName('m-tcol-c list-count')[0],childs=element.parentElement.parentElement.children;for(var i in childs)if('board-list'===childs[i].className)for(var j in childs[i].children[0].children)'aaa'===childs[i].children[0].children[j].className&&window.external.CafeNewPost(element.innerText,childs[i].children[0].children[j].children[0].innerText);");
+                    if (newPostList.ContainsKey(checkingBoardName))
+                    {
+                        HtmlElement headElement = webBrowser.Document.GetElementsByTagName("head")[0];
+                        HtmlElement scriptElement = webBrowser.Document.CreateElement("script");
+                        IHTMLScriptElement element = (IHTMLScriptElement)scriptElement.DomElement;
+                        element.text = "function findNewPost() { var nums = [];var titles = [];for (var k = document.getElementById('cafe_main').contentWindow.document.getElementsByClassName('m-tcol-c list-count').length - 1; k >= 0; k--) {var element = document.getElementById('cafe_main').contentWindow.document.getElementsByClassName('m-tcol-c list-count')[k];if (element === undefined) break;var childs = element.parentElement.parentElement.children;for (var i in childs) {if (childs[i].className === 'board-list') {for (var j in childs[i].children[0].children) {if (childs[i].children[0].children[j].className === 'aaa') {if (parseInt(element.innerText) > " + newPostList[checkingBoardName] + ") {/*nums.push(element.innerText);titles.push(childs[i].children[0].children[j].children[0].innerText);*/window.external.CafeNewPost(element.innerText, childs[i].children[0].children[j].children[0].innerText)}}}}}}/*window.external.CafeNewPost(nums.join('\n'), titles.join('\n'));*/ }";
+                        headElement.AppendChild(scriptElement);
+                        webBrowser.Document.InvokeScript("findNewPost");
+                        //webBrowser.Navigate("javascript:var element;for (var k = 14 ; (element=document.getElementById('cafe_main').contentWindow.document.getElementsByClassName('m-tcol-c list-count')[k]) !== undefined ; k--){childs=element.parentElement.parentElement.children;for(var i in childs)if('board-list'===childs[i].className)for(var j in childs[i].children[0].children)'aaa'===childs[i].children[0].children[j].className&&window.external.CafeNewPost(element.innerText,childs[i].children[0].children[j].children[0].innerText);}");
+                    }
+                    else webBrowser.Navigate("javascript:var element=document.getElementById('cafe_main').contentWindow.document.getElementsByClassName('m-tcol-c list-count')[0],childs=element.parentElement.parentElement.children;for(var i in childs)if('board-list'===childs[i].className)for(var j in childs[i].children[0].children)'aaa'===childs[i].children[0].children[j].className&&window.external.CafeNewPost(element.innerText,childs[i].children[0].children[j].children[0].innerText);");
                     checkingBoardReceiveCount = 0;
                 }
             }
@@ -161,24 +172,16 @@ namespace CafeManageTool
 
         public void CafeNewPost(string number, string title)
         {
-            log("최신 글 수신: " + number + ": " + title);
+            log("새 글: [" + number + "] " + title);
             if (newPostList.ContainsKey(checkingBoardName))
             {
-                if (!((string)newPostList[checkingBoardName]).Equals(number))
-                {
-                    log("새 글 수신: " + number + ": " + title);
-                    newPostList[checkingBoardName] = number;
-                }
-                else
-                {
-                    log("변경 사항 없음");
-                }
+                newPostList[checkingBoardName] = number;
             }
             else
             {
                 newPostList.Add(checkingBoardName, number);
-                log("새 글 수신: " + number + ": " + title);
             }
+
         }
 
         private void selectCafe_LoadButton_Click(object sender, EventArgs e)
@@ -190,7 +193,7 @@ namespace CafeManageTool
         private void selectCafe_loadCafeListTimer_Tick(object sender, EventArgs e)
         {
             log("카페 목록 불러오기 재시도.");
-            webBrowser.Navigate("javascript:try{document.getElementById('minime').contentWindow.document.getElementsByClassName('tab_cafe')[0].click();var unread = document.getElementById('minime').contentWindow.document.getElementsByClassName('unread');if (unread.length !== 0){var ans = [];for (var i in unread){if (unread[i].children !== undefined){ans.push(unread[i].children[0].title + '@' + unread[i].children[0].href);}}window.external.CafeList(ans.join('#'));}else{window.external.CafeList('');}}catch(e){window.external.CafeList('');}");
+            webBrowser.Navigate("javascript:try{var unread = document.getElementById('minime').contentWindow.document.getElementsByClassName('unread');if (unread.length !== 0){var ans = [];for (var i in unread){if (unread[i].children !== undefined){ans.push(unread[i].children[0].title + '@' + unread[i].children[0].href);}}window.external.CafeList(ans.join('#'));}else{window.external.CafeList('');}}catch(e){window.external.CafeList('');}");
             selectCafe_loadCafeListTimer.Stop();
         }
 
@@ -223,7 +226,7 @@ namespace CafeManageTool
             }
             else
             {
-                log("10초마다 최신 게시글을 불러옵니다.");
+                log("5초마다 최신 게시글을 불러옵니다.");
                 commentOnNewPost_loadPostTimer.Enabled = true;
                 commentOnNewPost_StartButton.Text = "중지";
             }
@@ -237,7 +240,7 @@ namespace CafeManageTool
                 {
                     checkingBoard = true;
                     checkingBoardName = checkbox.Text;
-                    log(checkingBoardName + " 검사 시작");
+                    //log(checkingBoardName + " 검사 시작");
                     webBrowser.Navigate("javascript:var gmtcolc = document.getElementsByClassName('gm-tcol-c');for (var i = 0, leng = gmtcolc.length; i < leng; i++) if (gmtcolc[i].outerHTML.indexOf('cafe_main') !== -1 && gmtcolc[i].outerHTML.indexOf('ArticleList.nhn?search.clubid=') !== -1 && gmtcolc[i].outerHTML.indexOf('Favorite') === -1 && gmtcolc[i].innerHTML === '" + checkingBoardName + "') gmtcolc[i].click();");
                 }
             }

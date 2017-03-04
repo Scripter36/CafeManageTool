@@ -41,6 +41,8 @@
             this.login_Panel = new System.Windows.Forms.Panel();
             this.login_PasswordShowButton = new System.Windows.Forms.Button();
             this.commentOnNewPost_Panel = new System.Windows.Forms.Panel();
+            this.commentOnNewPost_BoardListLoadStatusLabel = new System.Windows.Forms.Label();
+            this.commentOnNewPost_LoadBoardListButton = new System.Windows.Forms.Button();
             this.commentOnNewPost_StartButton = new System.Windows.Forms.Button();
             this.commentOnNewPost_TitleFilterTextBox = new System.Windows.Forms.TextBox();
             this.commentOnNewPost_TitleFilterLabel = new System.Windows.Forms.Label();
@@ -52,15 +54,13 @@
             this.console = new System.Windows.Forms.TextBox();
             this.console_ConsoleLabel = new System.Windows.Forms.Label();
             this.selectCafe_Panel = new System.Windows.Forms.Panel();
+            this.selectCafe_SelectStatusLabel = new System.Windows.Forms.Label();
+            this.selectCafe_LoadStatusLabel = new System.Windows.Forms.Label();
+            this.selectCafe_SelectButton = new System.Windows.Forms.Button();
             this.selectCafe_LoadButton = new System.Windows.Forms.Button();
             this.selectCafe_ComboBox = new System.Windows.Forms.ComboBox();
             this.selectCafe_Label = new System.Windows.Forms.Label();
             this.selectCafe_loadCafeListTimer = new System.Windows.Forms.Timer(this.components);
-            this.selectCafe_SelectButton = new System.Windows.Forms.Button();
-            this.selectCafe_LoadStatusLabel = new System.Windows.Forms.Label();
-            this.selectCafe_SelectStatusLabel = new System.Windows.Forms.Label();
-            this.commentOnNewPost_LoadBoardListButton = new System.Windows.Forms.Button();
-            this.commentOnNewPost_BoardListLoadStatusLabel = new System.Windows.Forms.Label();
             this.commentOnNewPost_loadPostTimer = new System.Windows.Forms.Timer(this.components);
             this.login_Panel.SuspendLayout();
             this.commentOnNewPost_Panel.SuspendLayout();
@@ -184,6 +184,25 @@
             this.commentOnNewPost_Panel.Size = new System.Drawing.Size(245, 262);
             this.commentOnNewPost_Panel.TabIndex = 9;
             // 
+            // commentOnNewPost_BoardListLoadStatusLabel
+            // 
+            this.commentOnNewPost_BoardListLoadStatusLabel.AutoSize = true;
+            this.commentOnNewPost_BoardListLoadStatusLabel.Location = new System.Drawing.Point(4, 243);
+            this.commentOnNewPost_BoardListLoadStatusLabel.Name = "commentOnNewPost_BoardListLoadStatusLabel";
+            this.commentOnNewPost_BoardListLoadStatusLabel.Size = new System.Drawing.Size(107, 15);
+            this.commentOnNewPost_BoardListLoadStatusLabel.TabIndex = 10;
+            this.commentOnNewPost_BoardListLoadStatusLabel.Text = "불러와 주세요!";
+            // 
+            // commentOnNewPost_LoadBoardListButton
+            // 
+            this.commentOnNewPost_LoadBoardListButton.Location = new System.Drawing.Point(7, 215);
+            this.commentOnNewPost_LoadBoardListButton.Name = "commentOnNewPost_LoadBoardListButton";
+            this.commentOnNewPost_LoadBoardListButton.Size = new System.Drawing.Size(124, 25);
+            this.commentOnNewPost_LoadBoardListButton.TabIndex = 9;
+            this.commentOnNewPost_LoadBoardListButton.Text = "불러오기";
+            this.commentOnNewPost_LoadBoardListButton.UseVisualStyleBackColor = true;
+            this.commentOnNewPost_LoadBoardListButton.Click += new System.EventHandler(this.commentOnNewPost_LoadPostListButton_Click);
+            // 
             // commentOnNewPost_StartButton
             // 
             this.commentOnNewPost_StartButton.Location = new System.Drawing.Point(137, 81);
@@ -259,6 +278,7 @@
             this.console.Location = new System.Drawing.Point(0, 22);
             this.console.Multiline = true;
             this.console.Name = "console";
+            this.console.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.console.Size = new System.Drawing.Size(268, 240);
             this.console.TabIndex = 1;
             // 
@@ -284,6 +304,34 @@
             this.selectCafe_Panel.Name = "selectCafe_Panel";
             this.selectCafe_Panel.Size = new System.Drawing.Size(245, 131);
             this.selectCafe_Panel.TabIndex = 11;
+            // 
+            // selectCafe_SelectStatusLabel
+            // 
+            this.selectCafe_SelectStatusLabel.AutoSize = true;
+            this.selectCafe_SelectStatusLabel.Location = new System.Drawing.Point(84, 88);
+            this.selectCafe_SelectStatusLabel.Name = "selectCafe_SelectStatusLabel";
+            this.selectCafe_SelectStatusLabel.Size = new System.Drawing.Size(107, 15);
+            this.selectCafe_SelectStatusLabel.TabIndex = 5;
+            this.selectCafe_SelectStatusLabel.Text = "확인해 주세요!";
+            // 
+            // selectCafe_LoadStatusLabel
+            // 
+            this.selectCafe_LoadStatusLabel.AutoSize = true;
+            this.selectCafe_LoadStatusLabel.Location = new System.Drawing.Point(84, 57);
+            this.selectCafe_LoadStatusLabel.Name = "selectCafe_LoadStatusLabel";
+            this.selectCafe_LoadStatusLabel.Size = new System.Drawing.Size(107, 15);
+            this.selectCafe_LoadStatusLabel.TabIndex = 4;
+            this.selectCafe_LoadStatusLabel.Text = "불러와 주세요!";
+            // 
+            // selectCafe_SelectButton
+            // 
+            this.selectCafe_SelectButton.Location = new System.Drawing.Point(3, 83);
+            this.selectCafe_SelectButton.Name = "selectCafe_SelectButton";
+            this.selectCafe_SelectButton.Size = new System.Drawing.Size(75, 25);
+            this.selectCafe_SelectButton.TabIndex = 3;
+            this.selectCafe_SelectButton.Text = "확인";
+            this.selectCafe_SelectButton.UseVisualStyleBackColor = true;
+            this.selectCafe_SelectButton.Click += new System.EventHandler(this.selectCafe_SelectButton_Click);
             // 
             // selectCafe_LoadButton
             // 
@@ -317,56 +365,9 @@
             this.selectCafe_loadCafeListTimer.Interval = 1000;
             this.selectCafe_loadCafeListTimer.Tick += new System.EventHandler(this.selectCafe_loadCafeListTimer_Tick);
             // 
-            // selectCafe_SelectButton
-            // 
-            this.selectCafe_SelectButton.Location = new System.Drawing.Point(3, 83);
-            this.selectCafe_SelectButton.Name = "selectCafe_SelectButton";
-            this.selectCafe_SelectButton.Size = new System.Drawing.Size(75, 25);
-            this.selectCafe_SelectButton.TabIndex = 3;
-            this.selectCafe_SelectButton.Text = "확인";
-            this.selectCafe_SelectButton.UseVisualStyleBackColor = true;
-            this.selectCafe_SelectButton.Click += new System.EventHandler(this.selectCafe_SelectButton_Click);
-            // 
-            // selectCafe_LoadStatusLabel
-            // 
-            this.selectCafe_LoadStatusLabel.AutoSize = true;
-            this.selectCafe_LoadStatusLabel.Location = new System.Drawing.Point(84, 57);
-            this.selectCafe_LoadStatusLabel.Name = "selectCafe_LoadStatusLabel";
-            this.selectCafe_LoadStatusLabel.Size = new System.Drawing.Size(107, 15);
-            this.selectCafe_LoadStatusLabel.TabIndex = 4;
-            this.selectCafe_LoadStatusLabel.Text = "불러와 주세요!";
-            // 
-            // selectCafe_SelectStatusLabel
-            // 
-            this.selectCafe_SelectStatusLabel.AutoSize = true;
-            this.selectCafe_SelectStatusLabel.Location = new System.Drawing.Point(84, 88);
-            this.selectCafe_SelectStatusLabel.Name = "selectCafe_SelectStatusLabel";
-            this.selectCafe_SelectStatusLabel.Size = new System.Drawing.Size(107, 15);
-            this.selectCafe_SelectStatusLabel.TabIndex = 5;
-            this.selectCafe_SelectStatusLabel.Text = "확인해 주세요!";
-            // 
-            // commentOnNewPost_LoadBoardListButton
-            // 
-            this.commentOnNewPost_LoadBoardListButton.Location = new System.Drawing.Point(7, 215);
-            this.commentOnNewPost_LoadBoardListButton.Name = "commentOnNewPost_LoadBoardListButton";
-            this.commentOnNewPost_LoadBoardListButton.Size = new System.Drawing.Size(124, 25);
-            this.commentOnNewPost_LoadBoardListButton.TabIndex = 9;
-            this.commentOnNewPost_LoadBoardListButton.Text = "불러오기";
-            this.commentOnNewPost_LoadBoardListButton.UseVisualStyleBackColor = true;
-            this.commentOnNewPost_LoadBoardListButton.Click += new System.EventHandler(this.commentOnNewPost_LoadPostListButton_Click);
-            // 
-            // commentOnNewPost_BoardListLoadStatusLabel
-            // 
-            this.commentOnNewPost_BoardListLoadStatusLabel.AutoSize = true;
-            this.commentOnNewPost_BoardListLoadStatusLabel.Location = new System.Drawing.Point(4, 243);
-            this.commentOnNewPost_BoardListLoadStatusLabel.Name = "commentOnNewPost_BoardListLoadStatusLabel";
-            this.commentOnNewPost_BoardListLoadStatusLabel.Size = new System.Drawing.Size(107, 15);
-            this.commentOnNewPost_BoardListLoadStatusLabel.TabIndex = 10;
-            this.commentOnNewPost_BoardListLoadStatusLabel.Text = "불러와 주세요!";
-            // 
             // commentOnNewPost_loadPostTimer
             // 
-            this.commentOnNewPost_loadPostTimer.Interval = 10000;
+            this.commentOnNewPost_loadPostTimer.Interval = 5000;
             this.commentOnNewPost_loadPostTimer.Tick += new System.EventHandler(this.commentOnNewPost_loadPostTimer_Tick);
             // 
             // Form1
