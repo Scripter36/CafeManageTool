@@ -132,11 +132,12 @@ namespace CafeManageTool
                     HtmlElement headElement = webBrowser.Document.GetElementsByTagName("head")[0];
                     HtmlElement scriptElement = webBrowser.Document.CreateElement("script");
                     IHTMLScriptElement element = (IHTMLScriptElement)scriptElement.DomElement;
-                    element.text = "function comment() {var currentdocument = document.getElementById('cafe_main').contentWindow.document;var commentbutton = currentdocument.getElementsByClassName('m-tcol-c m-tcol-p no_underline _totalCnt')[0];if (commentbutton !== undefined) commentbutton.click();setTimeout(function(){currentdocument.getElementById('comment_text').value = '" + commentList.First()[1] + "';currentdocument.getElementsByClassName('u_cbox_txt_upload _submitCmt')[0].click();}, 500);}";
+                    element.text = "function comment(msg) {var currentdocument = document.getElementById('cafe_main').contentWindow.document;var commentbutton = currentdocument.getElementsByClassName('m-tcol-c m-tcol-p no_underline _totalCnt')[0];if (commentbutton !== undefined) commentbutton.click();setTimeout(function(){currentdocument.getElementById('comment_text').value = msg;currentdocument.getElementsByClassName('u_cbox_txt_upload _submitCmt')[0].click();}, 500);}";
                     headElement.AppendChild(scriptElement);
-                    webBrowser.Document.InvokeScript("comment");
+                    webBrowser.Document.InvokeScript("comment", new string[] { commentList.First()[1] });
                     commentList.RemoveAt(0);
                     if (commentList.Count > 0) comment();
+                    else commenting = false;
                 }
             }
         }
