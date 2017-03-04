@@ -21,12 +21,15 @@ namespace CafeManageTool
         private bool logining = false;
         private bool testing = false;
         private bool rightCafe = false;
+        private string cafeName;
         private int checkedBoardCount = 0;
         private int checkingBoardReceiveCount = 0;
         private bool checkingBoard = false;
         private string checkingBoardName = "";
         private Hashtable cafeList = new Hashtable();
         private Hashtable newPostList = new Hashtable();
+        private List<string[]> commentList = new List<string[]>();
+        private bool commenting = false;
         public Form1()
         {
             InitializeComponent();
@@ -119,6 +122,21 @@ namespace CafeManageTool
                     }
                     else webBrowser.Navigate("javascript:var element=document.getElementById('cafe_main').contentWindow.document.getElementsByClassName('m-tcol-c list-count')[0],childs=element.parentElement.parentElement.children;for(var i in childs)if('board-list'===childs[i].className)for(var j in childs[i].children[0].children)'aaa'===childs[i].children[0].children[j].className&&window.external.CafeNewPost(element.innerText,childs[i].children[0].children[j].children[0].innerText);");
                     checkingBoardReceiveCount = 0;
+                    checkingBoard = false;
+                }
+            }
+            else if (commenting)
+            {
+                if (e.Url.AbsoluteUri.StartsWith("http://cafe.naver.com/ArticleRead.nhn"))
+                {
+                    HtmlElement headElement = webBrowser.Document.GetElementsByTagName("head")[0];
+                    HtmlElement scriptElement = webBrowser.Document.CreateElement("script");
+                    IHTMLScriptElement element = (IHTMLScriptElement)scriptElement.DomElement;
+                    element.text = "function comment() {var currentdocument = document.getElementById('cafe_main').contentWindow.document;var commentbutton = currentdocument.getElementsByClassName('m-tcol-c m-tcol-p no_underline _totalCnt')[0];if (commentbutton !== undefined) commentbutton.click();setTimeout(function(){currentdocument.getElementById('comment_text').value = '" + commentList.First()[1] + "';currentdocument.getElementsByClassName('u_cbox_txt_upload _submitCmt')[0].click();}, 500);}";
+                    headElement.AppendChild(scriptElement);
+                    webBrowser.Document.InvokeScript("comment");
+                    commentList.RemoveAt(0);
+                    if (commentList.Count > 0) comment();
                 }
             }
         }
@@ -173,6 +191,8 @@ namespace CafeManageTool
         public void CafeNewPost(string number, string title)
         {
             log("새 글: [" + number + "] " + title);
+            commentList.Add(new string[] { number, commentOnNewPost_CommentTextBox.Text });
+            commentOnNewPost_CommentTimer.Enabled = true;
             if (newPostList.ContainsKey(checkingBoardName))
             {
                 newPostList[checkingBoardName] = number;
@@ -201,10 +221,12 @@ namespace CafeManageTool
         {
             if (cafeList.ContainsKey(selectCafe_ComboBox.Text))
             {
+                cafeName = ((string)cafeList[selectCafe_ComboBox.Text]).Remove(0, 22);
                 webBrowser.Navigate((string)cafeList[selectCafe_ComboBox.Text]);
             }
             else
             {
+                cafeName = selectCafe_ComboBox.Text;
                 webBrowser.Navigate("http://cafe.naver.com/" + selectCafe_ComboBox.Text);
             }
             testing = true;
@@ -226,8 +248,9 @@ namespace CafeManageTool
             }
             else
             {
-                log("5초마다 최신 게시글을 불러옵니다.");
+                log("1분마다 최신 게시글을 불러옵니다.");
                 commentOnNewPost_loadPostTimer.Enabled = true;
+                commentOnNewPost_loadPostTimer_Tick(null, null);
                 commentOnNewPost_StartButton.Text = "중지";
             }
         }
@@ -244,6 +267,25 @@ namespace CafeManageTool
                     webBrowser.Navigate("javascript:var gmtcolc = document.getElementsByClassName('gm-tcol-c');for (var i = 0, leng = gmtcolc.length; i < leng; i++) if (gmtcolc[i].outerHTML.indexOf('cafe_main') !== -1 && gmtcolc[i].outerHTML.indexOf('ArticleList.nhn?search.clubid=') !== -1 && gmtcolc[i].outerHTML.indexOf('Favorite') === -1 && gmtcolc[i].innerHTML === '" + checkingBoardName + "') gmtcolc[i].click();");
                 }
             }
+        }
+
+        private void comment()
+        {
+            if (commenting) return;
+            commenting = true;
+            HtmlElement headElement = webBrowser.Document.GetElementsByTagName("head")[0];
+            HtmlElement scriptElement = webBrowser.Document.CreateElement("script");
+            IHTMLScriptElement element = (IHTMLScriptElement)scriptElement.DomElement;
+            element.text = "function clickPost() { var nums = [];var titles = [];for (var k = 0;; k++) {var element = document.getElementById('cafe_main').contentWindow.document.getElementsByClassName('m-tcol-c list-count')[k];if (element === undefined) break;var childs = element.parentElement.parentElement.children;for (var i in childs) {if (childs[i].className === 'board-list') {for (var j in childs[i].children[0].children) {if (childs[i].children[0].children[j].className === 'aaa') {if (parseInt(element.innerText) === " + commentList.First()[0] + ") {childs[i].children[0].children[j].children[0].click();}}}}}}}";
+            headElement.AppendChild(scriptElement);
+            webBrowser.Document.InvokeScript("clickPost");
+            log("http://cafe.naver.com/" + cafeName + "/" + commentList.First()[0]);
+        }
+
+        private void commentOnNewPost_CommentTimer_Tick(object sender, EventArgs e)
+        {
+            comment();
+            commentOnNewPost_CommentTimer.Enabled = false;
         }
     }
 }

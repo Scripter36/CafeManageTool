@@ -62,6 +62,9 @@
             this.selectCafe_Label = new System.Windows.Forms.Label();
             this.selectCafe_loadCafeListTimer = new System.Windows.Forms.Timer(this.components);
             this.commentOnNewPost_loadPostTimer = new System.Windows.Forms.Timer(this.components);
+            this.commentOnNewPost_CommentTimer = new System.Windows.Forms.Timer(this.components);
+            this.commentOnNewPost_CommentLabel = new System.Windows.Forms.Label();
+            this.commentOnNewPost_CommentTextBox = new System.Windows.Forms.TextBox();
             this.login_Panel.SuspendLayout();
             this.commentOnNewPost_Panel.SuspendLayout();
             this.console_Panel.SuspendLayout();
@@ -170,6 +173,8 @@
             // commentOnNewPost_Panel
             // 
             this.commentOnNewPost_Panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.commentOnNewPost_Panel.Controls.Add(this.commentOnNewPost_CommentTextBox);
+            this.commentOnNewPost_Panel.Controls.Add(this.commentOnNewPost_CommentLabel);
             this.commentOnNewPost_Panel.Controls.Add(this.commentOnNewPost_BoardListLoadStatusLabel);
             this.commentOnNewPost_Panel.Controls.Add(this.commentOnNewPost_LoadBoardListButton);
             this.commentOnNewPost_Panel.Controls.Add(this.commentOnNewPost_StartButton);
@@ -205,7 +210,7 @@
             // 
             // commentOnNewPost_StartButton
             // 
-            this.commentOnNewPost_StartButton.Location = new System.Drawing.Point(137, 81);
+            this.commentOnNewPost_StartButton.Location = new System.Drawing.Point(137, 215);
             this.commentOnNewPost_StartButton.Name = "commentOnNewPost_StartButton";
             this.commentOnNewPost_StartButton.Size = new System.Drawing.Size(75, 25);
             this.commentOnNewPost_StartButton.TabIndex = 8;
@@ -367,8 +372,31 @@
             // 
             // commentOnNewPost_loadPostTimer
             // 
-            this.commentOnNewPost_loadPostTimer.Interval = 5000;
+            this.commentOnNewPost_loadPostTimer.Interval = 60000;
             this.commentOnNewPost_loadPostTimer.Tick += new System.EventHandler(this.commentOnNewPost_loadPostTimer_Tick);
+            // 
+            // commentOnNewPost_CommentTimer
+            // 
+            this.commentOnNewPost_CommentTimer.Interval = 1000;
+            this.commentOnNewPost_CommentTimer.Tick += new System.EventHandler(this.commentOnNewPost_CommentTimer_Tick);
+            // 
+            // commentOnNewPost_CommentLabel
+            // 
+            this.commentOnNewPost_CommentLabel.AutoSize = true;
+            this.commentOnNewPost_CommentLabel.Location = new System.Drawing.Point(137, 78);
+            this.commentOnNewPost_CommentLabel.Name = "commentOnNewPost_CommentLabel";
+            this.commentOnNewPost_CommentLabel.Size = new System.Drawing.Size(72, 15);
+            this.commentOnNewPost_CommentLabel.TabIndex = 11;
+            this.commentOnNewPost_CommentLabel.Text = "댓글 내용";
+            // 
+            // commentOnNewPost_CommentTextBox
+            // 
+            this.commentOnNewPost_CommentTextBox.Location = new System.Drawing.Point(137, 97);
+            this.commentOnNewPost_CommentTextBox.Multiline = true;
+            this.commentOnNewPost_CommentTextBox.Name = "commentOnNewPost_CommentTextBox";
+            this.commentOnNewPost_CommentTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.commentOnNewPost_CommentTextBox.Size = new System.Drawing.Size(100, 112);
+            this.commentOnNewPost_CommentTextBox.TabIndex = 12;
             // 
             // Form1
             // 
@@ -428,6 +456,9 @@
         private System.Windows.Forms.Button commentOnNewPost_LoadBoardListButton;
         private System.Windows.Forms.Label commentOnNewPost_BoardListLoadStatusLabel;
         private System.Windows.Forms.Timer commentOnNewPost_loadPostTimer;
+        private System.Windows.Forms.Timer commentOnNewPost_CommentTimer;
+        private System.Windows.Forms.TextBox commentOnNewPost_CommentTextBox;
+        private System.Windows.Forms.Label commentOnNewPost_CommentLabel;
     }
 }
 
