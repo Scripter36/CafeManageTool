@@ -30,6 +30,7 @@ namespace CafeManageTool
         private Hashtable newPostList = new Hashtable();
         private List<string[]> commentList = new List<string[]>();
         private bool commenting = false;
+        private bool nextComment = false;
         public Form1()
         {
             InitializeComponent();
@@ -132,12 +133,25 @@ namespace CafeManageTool
                     HtmlElement headElement = webBrowser.Document.GetElementsByTagName("head")[0];
                     HtmlElement scriptElement = webBrowser.Document.CreateElement("script");
                     IHTMLScriptElement element = (IHTMLScriptElement)scriptElement.DomElement;
-                    element.text = "function comment(msg) {var currentdocument = document.getElementById('cafe_main').contentWindow.document;var commentbutton = currentdocument.getElementsByClassName('m-tcol-c m-tcol-p no_underline _totalCnt')[0];if (commentbutton !== undefined) commentbutton.click();setTimeout(function(){currentdocument.getElementById('comment_text').value = msg;currentdocument.getElementsByClassName('u_cbox_txt_upload _submitCmt')[0].click();}, 500);}";
+                    element.text = "function comment(msg) {var currentdocument = document.getElementById('cafe_main').contentWindow.document;var commentbutton = currentdocument.getElementsByClassName('m-tcol-c m-tcol-p no_underline _totalCnt')[0];if (commentbutton !== undefined) commentbutton.click();setTimeout(function(){currentdocument.getElementById('comment_text').value = msg;currentdocument.getElementsByClassName('u_cbox_txt_upload _submitCmt')[0].click();setTimeout(function(){history.back();}, 1000);}, 500);}";
                     headElement.AppendChild(scriptElement);
                     webBrowser.Document.InvokeScript("comment", new string[] { commentList.First()[1] });
                     commentList.RemoveAt(0);
-                    if (commentList.Count > 0) comment();
-                    else commenting = false;
+                    commenting = false;
+                    if (commentList.Count > 0)
+                    {
+                        //webBrowser.GoBack();
+                        //Comment();
+                        nextComment = true;
+                    }
+                }
+            }
+            else if (nextComment)
+            {
+                if (e.Url.AbsoluteUri.StartsWith("http://cafe.naver.com/ArticleList.nhn"))
+                {
+                    nextComment = false;
+                    Comment();
                 }
             }
         }
@@ -162,6 +176,7 @@ namespace CafeManageTool
                 return;
             }
             cafeList.Clear();
+            selectCafe_ComboBox.Items.Clear();
             foreach (string i in answer.Split('#'))
             {
                 cafeList.Add(i.Split('@')[0], i.Split('@')[1]);
@@ -270,7 +285,7 @@ namespace CafeManageTool
             }
         }
 
-        private void comment()
+        private void Comment()
         {
             if (commenting) return;
             commenting = true;
@@ -280,12 +295,11 @@ namespace CafeManageTool
             element.text = "function clickPost() { var nums = [];var titles = [];for (var k = 0;; k++) {var element = document.getElementById('cafe_main').contentWindow.document.getElementsByClassName('m-tcol-c list-count')[k];if (element === undefined) break;var childs = element.parentElement.parentElement.children;for (var i in childs) {if (childs[i].className === 'board-list') {for (var j in childs[i].children[0].children) {if (childs[i].children[0].children[j].className === 'aaa') {if (parseInt(element.innerText) === " + commentList.First()[0] + ") {childs[i].children[0].children[j].children[0].click();}}}}}}}";
             headElement.AppendChild(scriptElement);
             webBrowser.Document.InvokeScript("clickPost");
-            log("http://cafe.naver.com/" + cafeName + "/" + commentList.First()[0]);
         }
 
         private void commentOnNewPost_CommentTimer_Tick(object sender, EventArgs e)
         {
-            comment();
+            Comment();
             commentOnNewPost_CommentTimer.Enabled = false;
         }
     }

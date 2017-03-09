@@ -41,6 +41,8 @@
             this.login_Panel = new System.Windows.Forms.Panel();
             this.login_PasswordShowButton = new System.Windows.Forms.Button();
             this.commentOnNewPost_Panel = new System.Windows.Forms.Panel();
+            this.commentOnNewPost_CommentTextBox = new System.Windows.Forms.TextBox();
+            this.commentOnNewPost_CommentLabel = new System.Windows.Forms.Label();
             this.commentOnNewPost_BoardListLoadStatusLabel = new System.Windows.Forms.Label();
             this.commentOnNewPost_LoadBoardListButton = new System.Windows.Forms.Button();
             this.commentOnNewPost_StartButton = new System.Windows.Forms.Button();
@@ -63,8 +65,6 @@
             this.selectCafe_loadCafeListTimer = new System.Windows.Forms.Timer(this.components);
             this.commentOnNewPost_loadPostTimer = new System.Windows.Forms.Timer(this.components);
             this.commentOnNewPost_CommentTimer = new System.Windows.Forms.Timer(this.components);
-            this.commentOnNewPost_CommentLabel = new System.Windows.Forms.Label();
-            this.commentOnNewPost_CommentTextBox = new System.Windows.Forms.TextBox();
             this.login_Panel.SuspendLayout();
             this.commentOnNewPost_Panel.SuspendLayout();
             this.console_Panel.SuspendLayout();
@@ -188,6 +188,24 @@
             this.commentOnNewPost_Panel.Name = "commentOnNewPost_Panel";
             this.commentOnNewPost_Panel.Size = new System.Drawing.Size(245, 262);
             this.commentOnNewPost_Panel.TabIndex = 9;
+            // 
+            // commentOnNewPost_CommentTextBox
+            // 
+            this.commentOnNewPost_CommentTextBox.Location = new System.Drawing.Point(137, 97);
+            this.commentOnNewPost_CommentTextBox.Multiline = true;
+            this.commentOnNewPost_CommentTextBox.Name = "commentOnNewPost_CommentTextBox";
+            this.commentOnNewPost_CommentTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.commentOnNewPost_CommentTextBox.Size = new System.Drawing.Size(100, 112);
+            this.commentOnNewPost_CommentTextBox.TabIndex = 12;
+            // 
+            // commentOnNewPost_CommentLabel
+            // 
+            this.commentOnNewPost_CommentLabel.AutoSize = true;
+            this.commentOnNewPost_CommentLabel.Location = new System.Drawing.Point(137, 78);
+            this.commentOnNewPost_CommentLabel.Name = "commentOnNewPost_CommentLabel";
+            this.commentOnNewPost_CommentLabel.Size = new System.Drawing.Size(72, 15);
+            this.commentOnNewPost_CommentLabel.TabIndex = 11;
+            this.commentOnNewPost_CommentLabel.Text = "댓글 내용";
             // 
             // commentOnNewPost_BoardListLoadStatusLabel
             // 
@@ -380,24 +398,6 @@
             this.commentOnNewPost_CommentTimer.Interval = 1000;
             this.commentOnNewPost_CommentTimer.Tick += new System.EventHandler(this.commentOnNewPost_CommentTimer_Tick);
             // 
-            // commentOnNewPost_CommentLabel
-            // 
-            this.commentOnNewPost_CommentLabel.AutoSize = true;
-            this.commentOnNewPost_CommentLabel.Location = new System.Drawing.Point(137, 78);
-            this.commentOnNewPost_CommentLabel.Name = "commentOnNewPost_CommentLabel";
-            this.commentOnNewPost_CommentLabel.Size = new System.Drawing.Size(72, 15);
-            this.commentOnNewPost_CommentLabel.TabIndex = 11;
-            this.commentOnNewPost_CommentLabel.Text = "댓글 내용";
-            // 
-            // commentOnNewPost_CommentTextBox
-            // 
-            this.commentOnNewPost_CommentTextBox.Location = new System.Drawing.Point(137, 97);
-            this.commentOnNewPost_CommentTextBox.Multiline = true;
-            this.commentOnNewPost_CommentTextBox.Name = "commentOnNewPost_CommentTextBox";
-            this.commentOnNewPost_CommentTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.commentOnNewPost_CommentTextBox.Size = new System.Drawing.Size(100, 112);
-            this.commentOnNewPost_CommentTextBox.TabIndex = 12;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -408,8 +408,10 @@
             this.Controls.Add(this.commentOnNewPost_Panel);
             this.Controls.Add(this.login_Panel);
             this.Controls.Add(this.webBrowser);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.Text = "CafeManageTool";
             this.login_Panel.ResumeLayout(false);
             this.login_Panel.PerformLayout();
             this.commentOnNewPost_Panel.ResumeLayout(false);
